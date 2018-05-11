@@ -1,4 +1,5 @@
 var scrollY = 0;
+var aboutme = document.getElementsByClassName("set1");
 var slideCount = 0;
 var slide1 = document.getElementsByClassName("slide1");
 window.onwheel = function(ev){
@@ -15,40 +16,46 @@ window.onwheel = function(ev){
 function scrollAction(){
   switch (slideCount) {
     case 0:
-        if(scrollY>180){
-          slideCount = 1;
-          loadSlide2();
-          break;
-        }
         slide1[0].style.transform = "translateX("+(-1)*scrollY*100/180+"%)";
         slide1[1].style.transform = "translateX("+scrollY*100/180+"%)";
         slide1[2].style.left = 50+20*scrollY/(180)+"%";
         slide1[2].style.top = 30-20*scrollY/(180)+"%";
+        for (var i = 0; i < aboutme.length; i++) {
+          aboutme[i].style.opacity = 0;
+        }
+        if(scrollY>=180){
+          slideCount = 1;
+          loadSlide2();
+          break;
+        }
       break;
     case 1:
-      if(scrollY<=180)
-       slideCount = 0;
-      if(scrollY>180*10){
-        var set1 = document.getElementsByClassName("set1");
-        for (var i = 0; i < set1.length; i++) {
-          set1[i].style.transform = "scale(0,0)";
+        if(scrollY<180)
+         slideCount = 0;
+        if(scrollY>180*10){
+          var set1 = document.getElementsByClassName("set1");
           document.getElementsByClassName("s2")[0].style.transform = "scale(0,0)";
+          // for (var i = 0; i < set1.length; i++) {
+          //   set1[i].style.transform = "scale(0,0)";
+          // }
+          slide1[2].style.left = "100%";
+          slideCount = 2;
         }
-        slide1[2].style.left = "100%";
-
-        slideCount = 2;
-      }
       break;
     case 2:
       if(scrollY<180*10)
-        slideCount = 1;
+        load1();
       if(scrollY>180*15){
         slideCount = 3;
         load3();
       }
       break;
     case 3:
-
+      if(scrollY<180*15){
+        slideCount = 2;
+        document.getElementsByClassName("s4")[0].style.transform = "scaleY(0)";
+      }
+      break;
     default:
   }
 }
@@ -58,21 +65,23 @@ function load3(){
 }
 
 function loadSlide2(){
-  var aboutme = document.getElementsByClassName("set1");
   var op = 0;
-  var timer = setInterval(function () {
-        if (op >= 1){
-            clearInterval(timer);
-            // element.style.display = 'none';
-        }
+  // var timer = setInterval(function () {
+  //       if (op >= 1){
+  //           clearInterval(timer);
+  //       }
         for (var i = 0; i < aboutme.length; i++) {
-          aboutme[i].style.opacity = op;
+          aboutme[i].style.opacity = 1;
         }
-        op += 0.02;
-    }, 50);
+    //     op += 0.02;
+    // }, 40);
 }
 
-var acti;
+function load1(){
+  slideCount = 1;
+  document.getElementsByClassName("s2")[0].style.transform = "scale(1,1)";
+  slide1[2].style.left = "70%";
+}
 
 (function(){
   var aboutme = document.getElementsByClassName("set1");
